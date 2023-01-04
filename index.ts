@@ -1,8 +1,6 @@
 import { httpServer } from "./src/http_server/index.js";
-import { mouse } from "@nut-tree/nut-js";
-import { WebSocketServer}  from 'ws';
-import path from 'path';
-import fs from 'fs';
+import { createWebSocketStream, WebSocketServer }  from 'ws';
+import { handleCommands } from "./src/handleCommands.js";
 
 const HTTP_PORT = 8181;
 const WSS_PORT = 8080;
@@ -14,11 +12,13 @@ export const wss = new WebSocketServer({ port: WSS_PORT});
 console.log(`Start ws server on the ${WSS_PORT} port!`);
 
 
-wss.on('connection', ws => {
-    ws.on('message', data => {
-        console.log('received: %s', data);
-      });
+wss.on('connection', async ws => {
+    const wsStream = createWebSocketStream(ws, { encoding: 'utf8' });
     
-    ws.send('something');
+    wsStream.on('data', async (data) => {
+        const response = handleCommands(data);
+        ws.send(await response);
+    });
 })
+
 wss.on('close', () => console.log('Connection is closed'));  

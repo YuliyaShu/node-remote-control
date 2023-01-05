@@ -5,15 +5,9 @@ import { drawSquare } from "./commands/drawSquare.js";
 import { getPartOfScreen } from "./commands/getPartOfScreen.js";
 
 export const handleCommands = async (data: string) => {
-    console.log('🚀 ~ handleCommands ~ data', data);
+    console.log('Last command:', data);
     if (data) {
-        
-        console.log('🚀 ~ handleCommands ~ data', data);
         const [command, width, length] = data.split(' ');
-        
-        console.log('🚀 ~ handleCommands ~ length', Number(length));
-        console.log('🚀 ~ handleCommands ~ width', Number(width));
-        console.log('🚀 ~ handleCommands ~ command', command);
         
         switch (command) {
             case 'mouse_up':
@@ -42,7 +36,6 @@ export const handleCommands = async (data: string) => {
                 return data + ' ' + position.x + ',' + position.y;
             case 'prnt_scrn':
                 const partOfScreen = await getPartOfScreen();
-                console.log('🚀 ~ handleCommands ~ partOfScreen', partOfScreen);
                 return data + ' ' + partOfScreen;
         }
         

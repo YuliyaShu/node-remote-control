@@ -1,6 +1,8 @@
 import { Button, centerOf, down, left, mouse, Region, right, straightTo, up, screen } from "@nut-tree/nut-js";
+import { drawCircle } from "./commands/drawCircle.js";
 import { drawRectangle } from "./commands/drawRectangle.js";
 import { drawSquare } from "./commands/drawSquare.js";
+import { getPartOfScreen } from "./commands/getPartOfScreen.js";
 
 export const handleCommands = async (data: string) => {
     console.log('🚀 ~ handleCommands ~ data', data);
@@ -27,22 +29,21 @@ export const handleCommands = async (data: string) => {
                 await mouse.move(left(+width));
                 return data;
             case 'draw_square':
-                drawSquare(+width);
+                await drawSquare(+width);
                 return data;
             case 'draw_rectangle':
-                drawRectangle(+width, +length);
+                await drawRectangle(+width, +length);
                 return data;
             case 'draw_circle':
-                await mouse.pressButton(Button.LEFT);
-                // draw circle
-                await mouse.releaseButton(Button.LEFT);
+                await drawCircle(+width);
                 return data;
             case 'mouse_position':
                 const position = await mouse.getPosition();
                 return data + ' ' + position.x + ',' + position.y;
             case 'prnt_scrn':
-                // get screen
-                return data + ' ' + screen;
+                const partOfScreen = await getPartOfScreen();
+                console.log('🚀 ~ handleCommands ~ partOfScreen', partOfScreen);
+                return data + ' ' + partOfScreen;
         }
         
         return data;

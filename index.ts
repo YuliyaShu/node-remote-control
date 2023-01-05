@@ -13,11 +13,11 @@ console.log(`Start ws server on the ${WSS_PORT} port!`);
 
 
 wss.on('connection', async ws => {
-    const wsStream = createWebSocketStream(ws, { encoding: 'utf8' });
+    const wsStream = createWebSocketStream(ws, { encoding: 'utf8', decodeStrings: false });
     
     wsStream.on('data', async (data) => {
-        const response = handleCommands(data);
-        ws.send(await response);
+        const response = await handleCommands(data);
+        wsStream.write(response);
     });
 })
 

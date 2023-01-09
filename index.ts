@@ -16,9 +16,12 @@ wss.on('connection', async ws => {
     const wsStream = createWebSocketStream(ws, { encoding: 'utf8', decodeStrings: false });
     
     wsStream.on('data', async (data) => {
+        console.log('🚀 ~ wsStream.on ~ data', data);
         const response = await handleCommands(data);
         wsStream.write(response);
     });
+    
+   
 })
 
 wss.on('close', () => console.log('Connection is closed'));  

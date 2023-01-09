@@ -1,4 +1,4 @@
-import { Button, centerOf, down, left, mouse, Region, right, straightTo, up, screen } from "@nut-tree/nut-js";
+import { down, left, mouse, right, up } from "@nut-tree/nut-js";
 import { drawCircle } from "./commands/drawCircle.js";
 import { drawRectangle } from "./commands/drawRectangle.js";
 import { drawSquare } from "./commands/drawSquare.js";

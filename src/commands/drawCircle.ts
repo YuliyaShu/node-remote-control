@@ -1,17 +1,13 @@
-import { mouse, Button, Point, EasingFunction } from "@nut-tree/nut-js";
-import { calculateMovementTimesteps } from "@nut-tree/nut-js/dist/lib/mouse-movement.function.js";
+import { mouse, Button, Point, EasingFunction, down } from "@nut-tree/nut-js";
 
 export const drawCircle = async (radius: number) => {
+    mouse.config.mouseSpeed = 100;
     await mouse.pressButton(Button.LEFT);
     const position = await mouse.getPosition();
-    const point = new Point(position.x + radius, position.y);
-    console.log('🚀 ~ drawCircle ~ point', point);
-    const easeInCirc: EasingFunction = (x: number): number => {
-        return 1 - Math.sqrt(1 - Math.pow(x, 2));
-        }
-    // calculateMovementTimesteps(360, 100, easeInCirc);
-    mouse.move([point], easeInCirc);
-    
-    console.log('🚀 ~ drawCircle ~ easeInCirc', easeInCirc);
+    for (let i = 1; i <= 360; i += 1) {
+        const radians = i * Math.PI / 180;
+        const point = new Point(radius * Math.cos(radians) + position.x - radius, radius * Math.sin(radians) + position.y);
+        await mouse.move([point]);
+    }
     await mouse.releaseButton(Button.LEFT);
 }

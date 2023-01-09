@@ -1,6 +1,7 @@
 import { Button, down, left, mouse, right, up } from "@nut-tree/nut-js";
 
 export const drawSquare = async (width: number) => {
+    mouse.config.mouseSpeed = 100;
     await mouse.pressButton(Button.LEFT);
     await mouse.move(down(+width));
     await mouse.move(right(+width));

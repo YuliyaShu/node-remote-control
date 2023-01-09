@@ -8,7 +8,6 @@ export const handleCommands = async (data: string) => {
     console.log('Last command:', data);
     if (data) {
         const [command, width, length] = data.split(' ');
-        
         switch (command) {
             case 'mouse_up':
                 await mouse.move(up(+width));
@@ -38,10 +37,8 @@ export const handleCommands = async (data: string) => {
                 const partOfScreen = await getPartOfScreen();
                 return data + ' ' + partOfScreen;
         }
-        
         return data;
     } else {
         throw new Error('Data is incorrect')
     }
-    
 }

@@ -1,4 +1,4 @@
-import { mouse, Button, Point, EasingFunction, down } from "@nut-tree/nut-js";
+import { mouse, Button, Point } from "@nut-tree/nut-js";
 
 export const drawCircle = async (radius: number) => {
     mouse.config.mouseSpeed = 100;

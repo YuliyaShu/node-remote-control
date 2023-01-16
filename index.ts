@@ -14,7 +14,6 @@ console.log(`Start ws server on the ${WSS_PORT} port!`);
 wss.on('connection', async ws => {
     const wsStream = createWebSocketStream(ws, { encoding: 'utf8', decodeStrings: false });
     wsStream.on('data', async (data) => {
-        console.log('🚀 ~ wsStream.on ~ data', data);
         const response = await handleCommands(data);
         wsStream.write(response);
     });

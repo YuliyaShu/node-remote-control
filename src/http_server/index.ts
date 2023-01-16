@@ -15,3 +15,8 @@ export const httpServer = http.createServer(function (req, res) {
         res.end(data);
     });
 });
+
+process.on('SIGINT', () => {
+    console.log('Gracefully shutting down from SIGINT (Ctrl-C)');
+    process.exit();
+})

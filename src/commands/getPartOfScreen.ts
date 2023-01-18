@@ -1,5 +1,6 @@
 import { FileType, mouse, Region, screen } from "@nut-tree/nut-js"
 import fs from 'fs/promises';
+import Jimp from 'jimp';
 
 const PART_SIZE = 200;
 
@@ -13,11 +14,25 @@ const countPosition = (dim: number, position: number) => {
     } 
 }
 export const getPartOfScreen = async () => {
-    const position = await mouse.getPosition();
-    const [screenWidth, screenHeight] = [await screen.width(), await screen.height()];
-    let left = countPosition(screenWidth, position.x);
-    let top = countPosition(screenHeight, position.y);
-    const region = new Region(left, top, PART_SIZE, PART_SIZE);
-    await screen.captureRegion('img', region, FileType.PNG, './src/commands');
-    return await fs.readFile('./src/commands/img.png', {encoding: 'base64'});
+    try {
+        const position = await mouse.getPosition();
+        const [screenWidth, screenHeight] = [await screen.width(), await screen.height()];
+        let left = countPosition(screenWidth, position.x);
+        let top = countPosition(screenHeight, position.y);
+        const region = new Region(left, top, PART_SIZE, PART_SIZE);
+        const image = await screen.grabRegion(region);
+        return await Jimp.read(new Jimp(image))
+            .then(async img => {
+                const imageBase64 = await img.getBase64Async(img.getMIME());
+                return  imageBase64.split('data:image/png;base64,').join('');
+            })
+            .catch(err => {
+                return new Error(`error ${err.message}`);
+            })
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+            throw new Error(error.message);
+        }
+    }
 }

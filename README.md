@@ -3,8 +3,9 @@
 > By default WebSocket client tries to connect to the 8080 port.
 
 ## Installation
-1. Clone/download repo
-2. `npm install`
+1. Clone/download repo https://github.com/YuliyaShu/node-remote-control
+2. git switch dev, if necessary
+3. `npm install`
 
 ## Usage
 **Development**
@@ -29,3 +30,7 @@ Command | Description
 `npm run start` | App served @ `http://localhost:8181` without nodemon
 
 **Note**: replace `npm` with `yarn` in `package.json` if you use yarn.
+
+
+
+# Go to http://127.0.0.1:8181/index.html and follow the instructions

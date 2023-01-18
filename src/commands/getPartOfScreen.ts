@@ -21,7 +21,8 @@ export const getPartOfScreen = async () => {
         let top = countPosition(screenHeight, position.y);
         const region = new Region(left, top, PART_SIZE, PART_SIZE);
         const image = await screen.grabRegion(region);
-        return await Jimp.read(new Jimp(image))
+        const imgRGB = await image.toRGB()
+        return await Jimp.read(new Jimp(imgRGB))
             .then(async img => {
                 const imageBase64 = await img.getBase64Async(img.getMIME());
                 return  imageBase64.split('data:image/png;base64,').join('');
